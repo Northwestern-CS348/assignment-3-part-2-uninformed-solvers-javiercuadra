@@ -205,8 +205,7 @@ class Puzzle8Game(GameMaster):
              A Fact object that could be used to query the currently available moves
         """
         return parse_input('fact: (movable ?piece ?initX ?initY ?targetX ?targetY)')
-
-    @property
+        
     def getGameState(self):
         """
         Returns a representation of the the game board in the current state.
