@@ -4,7 +4,6 @@ class Fact(object):
     """Represents a fact in our knowledge base. Has a statement containing the
         content of the fact, e.g. (isa Sorceress Wizard) and fields tracking
         which facts/rules in the KB it supports and is supported by.
-
     Attributes:
         name (str): 'fact', the name of this class
         statement (Statement): statement of this fact, basically what the fact actually says
@@ -17,7 +16,6 @@ class Fact(object):
     """
     def __init__(self, statement, supported_by=[]):
         """Constructor for Fact setting up useful flags and generating appropriate statement
-
         Args:
             statement (str|Statement): The statement of this fact, basically what the
                 fact actually says
@@ -78,7 +76,6 @@ class Rule(object):
         containing the statements that need to be in our KB for us to infer the
         RHS statement. Also has fields tracking which facts/rules in the KB it
         supports and is supported by.
-
     Attributes:
         name (str): 'rule', the name of this class
         lhs (listof Statement): LHS statements of this rule
@@ -92,7 +89,6 @@ class Rule(object):
     """
     def __init__(self, rule, supported_by=[]):
         """Constructor for Rule setting up useful flags and generating appropriate LHS & RHS
-
         Args:
             rule (listof list): Raw representation of statements making up LHS and
                 RHS of this rule
@@ -156,7 +152,6 @@ class Statement(object):
     """Represents a statement in our knowledge base, e.g. (attacked Ai Nosliw),
         (diamonds Loot), (isa Sorceress Wizard), etc. These statements show up
         in Facts or on the LHS and RHS of Rules
-
     Attributes:
         terms (listof Term): List of terms (Variable or Constant) in the
             statement, e.g. 'Nosliw' or '?d'
@@ -165,7 +160,6 @@ class Statement(object):
     def __init__(self, statement_list=[]):
         """Constructor for Statements with optional list of Statements that are
             converted to appropriate terms (and one predicate)
-
         Args:
             statement_list (mostly listof str|Term, first element is str): The element at
                 index 0 is the predicate of the statement (a str) while the rest of
@@ -179,6 +173,21 @@ class Statement(object):
         if statement_list:
             self.predicate = statement_list[0]
             self.terms = [t if isinstance(t, Term) else Term(t) for t in statement_list[1:]]
+
+    def __lt__(self, other):
+        if self.predicate != other.predicate:
+            return self.predicate < other.predicate
+        length = len(self.terms)
+        isSelfShorter = True
+        if len(other.terms) < length:
+            length = len(other.terms)
+            isSelfShorter = False
+        for i in range(length):
+            selfT = self.terms[i].term.element
+            otherT = other.terms[i].term.element
+            if selfT != otherT:
+                return selfT < otherT
+        return isSelfShorter
 
     def __repr__(self):
         """Define internal string representation
@@ -211,13 +220,11 @@ class Term(object):
     """Represents a term (a Variable or Constant) in our knowledge base. Can
         sorta be thought of as a super class of Variable and Constant, though
         there is no inheritance implemented in the code.
-
     Attributes:
         term (Variable|Constant): The Variable or Constant that this term holds (represents)
     """
     def __init__(self, term):
         """Constructor for Term which converts term to appropriate form
-
         Args:
             term (Variable|Constant|string): Either an instantiated Variable or
                 Constant, or a string to be passed to the appropriate constructor
@@ -251,13 +258,11 @@ class Term(object):
 
 class Variable(object):
     """Represents a variable used in statements
-
     Attributes:
         element (str): The name of the variable, e.g. '?x'
     """
     def __init__(self, element):
         """Constructor for Variable
-
         Args:
             element (str): The name of the variable, e.g. '?x'
         """
@@ -289,13 +294,11 @@ class Variable(object):
 
 class Constant(object):
     """Represents a constant used in statements
-
     Attributes:
         element (str): The value of the constant, e.g. 'Nosliw'
     """
     def __init__(self, element):
         """Constructor for Constant
-
         Args:
             element (str): The value of the constant, e.g. 'Nosliw'
         """
@@ -328,14 +331,12 @@ class Constant(object):
 class Binding(object):
     """Represents a binding of a constant to a variable, e.g. 'Nosliw' might be
         bound to'?d'
-
     Attributes:
         variable (Variable): The name of the variable associated with this binding
         constant (Constant): The value of the variable
     """
     def __init__(self, variable, constant):
         """Constructor for Binding
-
         Args:
             variable (Variable): The name of the variable associated with this binding
             constant (Constant): The value of the variable
@@ -356,7 +357,6 @@ class Binding(object):
 
 class Bindings(object):
     """Represents Binding(s) used while matching two statements
-
     Attributes:
         bindings (listof Bindings): bindings involved in match
         bindings_dict (dictof Bindings): bindings involved in match where key is
@@ -392,7 +392,6 @@ class Bindings(object):
 
     def add_binding(self, variable, value):
         """Add a binding from a variable to a value
-
         Args:
             variable (Variable): the variable to bind to
             value (Constant): the value to bind to the variable
@@ -402,10 +401,8 @@ class Bindings(object):
 
     def bound_to(self, variable):
         """Check if variable is bound. If so return value bound to it, else False.
-
         Args:
             variable (Variable): variable to check for binding
-
         Returns:
             Variable|Constant|False: returns bound term if variable is bound else False
         """
@@ -420,7 +417,6 @@ class Bindings(object):
         """Check if variable_term already bound. If so return whether or not passed
             in value_term matches bound value. If not, add binding between
             variable_terma and value_term and return True.
-
         Args:
             value_term (Term): value to maybe bind
             variable_term (Term): variable to maybe bind to
@@ -439,7 +435,6 @@ class Bindings(object):
 
 class ListOfBindings(object):
     """Container for multiple Bindings
-
         Attributes:
             list_of_bindings (listof Bindings): collects Bindings
     """
@@ -478,11 +473,9 @@ class ListOfBindings(object):
 
     def add_bindings(self, bindings, facts_rules=[]):
         """Add given bindings to list of Bindings along with associated rules or facts
-
             Args:            
                 bindings (Bindings): bindings to add
                 facts_rules (listof Fact|Rule): rules or facts associated with bindings
-
             Returns:
                 Nothing
         """
