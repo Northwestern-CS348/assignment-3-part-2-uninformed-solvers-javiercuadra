@@ -17,23 +17,22 @@ fact: (pred obj1 obj2)
 rule: ((pred obj1 obj2) (pred obj2 obj3)) -> (pred obj1 obj3)
 
 """
-fact: (coord tile1 pos1 pos1)
-fact: (coord tile2 pos2 pos1)
-fact: (coord tile3 pos3 pos1)
-fact: (coord tile4 pos3 pos2)
-fact: (coord tile5 pos3 pos3)
-fact: (coord tile6 pos2 pos3)
-fact: (coord tile7 pos1 pos3)
-fact: (coord tile8 pos1 pos2)
-fact: (coord empty pos2 pos2)
+fact: (coordinate tile1 pos1 pos1)
+fact: (coordinate tile2 pos2 pos1)
+fact: (coordinate tile3 pos3 pos1)
+
+fact: (coordinate tile8 pos1 pos2)
+fact: (coordinate empty pos2 pos2)
+fact: (coordinate tile4 pos3 pos2)
+
+fact: (coordinate tile7 pos1 pos3)
+fact: (coordinate tile6 pos2 pos3)
+fact: (coordinate tile5 pos3 pos3)
 
 
-rule: ((adjacent empty ?tile) (coord empty ?x ?y) (coord ?tile ?z ?y)) -> (movable ?tile ?z ?y ?x ?y)
-rule: ((adjacent empty ?tile) (coord empty ?x ?y) (coord ?tile ?x ?z)) -> (movable ?tile ?x ?z ?x ?y)
+rule: ((coordinate ?tile_a ?x pos2) (coordinate ?tile_b ?x ?y)) -> (adjacent ?tile_a ?tile_b)
+rule: ((coordinate ?tile_a pos2 ?y) (coordinate ?tile_b ?x ?y)) -> (adjacent ?tile_a ?tile_b)
+rule: ((coordinate ?tile_a ?x pos2) (coordinate ?tile_b ?x ?y)) -> (adjacent ?tile_b ?tile_a)
+rule: ((coordinate ?tile_a pos2 ?y) (coordinate ?tile_b ?x ?y)) -> (adjacent ?tile_b ?tile_a)
 
-rule: ((coord ?tileA ?x pos2) (coord ?tileB ?x ?y)) -> (adjacent ?tileA ?tileB)
-rule: ((coord ?tileA pos2 y?) (coord ?tileB ?x ?y)) -> (adjacent ?tileA ?tileB)
-rule: ((coord ?tileA ?x ?y) (coord ?tileB ?x pos2)) -> (adjacent ?tileA ?tileB)
-rule: ((coord ?tileA ?x ?y) (coord ?tileB pos2 ?y)) -> (adjacent ?tileA ?tileB)
-
-rule: (adjacent ?tileA ?tileB) -> (adjacent ?tileB ?tileA)
+rule: ((adjacent ?tile empty) (coordinate ?tile ?tx ?ty) (coordinate empty ?ex ?ey)) -> (movable ?tile ?tx ?ty ?ex ?ey)
