@@ -14,7 +14,6 @@ class KBTest(unittest.TestCase):
     def playXSteps(self, solver, plays):
         """
         Call the solver's solveOneStep for x times, and record the result game state
-
         Args:
              solver: solver of the game
              plays: list of lists; inner list consists of the number of steps (x) followed by the expected outcome
@@ -31,7 +30,6 @@ class KBTest(unittest.TestCase):
     def solve(self, solver):
         """
         Call the solver's solve function, which should solve the game.
-
         Args:
              solver: solver of the game
         """
@@ -40,7 +38,6 @@ class KBTest(unittest.TestCase):
     def runPlayXSteps(self, solver, plays, timeout=5):
         """
         Wrapper function; calls playXSteps(..) with a timeout
-
         Args:
              solver: solver of the game
              plays: list of lists; inner list consists of the number of steps (x) followed by the expected outcome
@@ -57,7 +54,6 @@ class KBTest(unittest.TestCase):
     def runSolve(self, solver, timeout=5):
         """
         Wrapper function; calls solve(..) with a timeout
-
         Args:
              solver: solver of the game
              timeout: time out in seconds. Default 5 seconds
@@ -99,9 +95,9 @@ class KBTest(unittest.TestCase):
 
         self.runPlayXSteps(solver, [
             # [step, expected game state]
-            [3, ((1, 3), (), (2,))],
-            [13, ((2,), (), (1, 3))],
-            [22, ((2,), (1, 3), ())],
+            [3, ((3,), (2,), (1,))],
+            [13, ((1,), (), (2, 3))],
+            [22, ((), (), (1, 2, 3))],
         ])
 
     def test03_DFS_Hanoi(self):
@@ -131,9 +127,9 @@ class KBTest(unittest.TestCase):
 
         self.runPlayXSteps(solver, [
             # [step, expected game state]
-            [10, ((), (1,2), (3,))],
+            [10, ((), (1, 2), (3,))],
             [11, ((1,), (3,), (2,))],
-            [20, ((), (1,2,3), ())],
+            [20, ((), (2, 3), (1,))],
         ])
 
     def test05_BFS_Hanoi(self):
@@ -162,7 +158,7 @@ class KBTest(unittest.TestCase):
         movables = p8.getMovables()
         self.assertEqual(p8.getGameState(), ((5,4,-1),(6,1,8),(7,3,2)))
         p8.makeMove(movables[0])
-        self.assertEqual(p8.getGameState(), ((5,4,8),(6,1,-1),(7,3,2)))
+        self.assertEqual(p8.getGameState(), ((5,-1,4), (6,1,8), (7,3,2)))
         p8.reverseMove(movables[0])
         self.assertEqual(p8.getGameState(), ((5,4,-1),(6,1,8),(7,3,2)))
 
@@ -181,9 +177,9 @@ class KBTest(unittest.TestCase):
 
         self.runPlayXSteps(solver, [
             # [step, expected game state]
-            [9, ((4, 8, 1), (5, 3, -1), (6, 7, 2))],
-            [17, ((8, 1, 2), (4, 3, -1), (5, 6, 7))],
-            [34, ((2, 7, 6), (1, 3, 5), (8, 4, -1))],
+            [9, ((5, 4, 3), (6, 1, -1), (7, 2, 8))],
+            [17, ((5, -1, 4), (2, 1, 3), (6, 7, 8))],
+            [34, ((5, 4, -1), (3, 2, 1), (6, 7, 8))],
         ])
 
     def test08_BFS_8Puzzle(self):
@@ -200,9 +196,9 @@ class KBTest(unittest.TestCase):
 
         self.runPlayXSteps(solver, [
             # [step, expected game state]
-            [5, ((-1, 5, 4), (6, 1, 8), (7, 3, 2))],
-            [13, ((5, 1, 4), (6, 8, -1), (7, 3, 2))],
-            [21, ((5, 4, 8), (6, 1, 2), (-1, 7, 3))],
+            [5, ((5, 4, 8), (6, -1, 1), (7, 3, 2))],
+            [13, ((5, 4, 8), (-1, 6, 1), (7, 3, 2))],
+            [21, ((6, 5, 4), (1, -1, 8), (7, 3, 2))],
         ])
 
 
