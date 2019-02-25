@@ -48,43 +48,34 @@ class TowerOfHanoiGame(GameMaster):
 
 
         '''
-        # Create a list to cycle through containing all the pegs
-        all_pegs = ["peg1", "peg2", "peg3"]
-        # Create a game state list to store all the peg tuples
+        peg1_ask = parse_input("fact: (on ?x peg1)")
+        peg2_ask = parse_input("fact: (on ?x peg2)")
+        peg3_ask = parse_input("fact: (on ?x peg3)")
+
+        peg1_bindings = self.kb.kb_ask(peg1_ask)
+        peg2_bindings = self.kb.kb_ask(peg2_ask)
+        peg3_bindings = self.kb.kb_ask(peg3_ask)
+
+
+        all_peg_bindings = [peg1_bindings, peg2_bindings, peg3_bindings]
+
         game_state = []
 
         # Cycle through each peg
-        for peg in all_pegs:
-            # Create a list to store the disks if they are in the pegs
-            peg_state = []
-            # Create the fact that will be asked in the KB to find which disks are on the current peg
-            my_fact = parse_input("fact: (on ?x " + peg + ")")
-            # Find out which disks are on the current peg
-            disks_on_peg = self.kb.kb_ask(my_fact)
+        for peg_bindings in all_peg_bindings:
+            disks_on_peg = []
+            if peg_bindings:
+                for peg_binding in peg_bindings:
+                    for disk_name in peg_binding.bindings:
+                        disk_number = int(str(disk_name)[-1])
+                        disks_on_peg.append(disk_number)
+                        disks_on_peg.sort()
 
-            # Check if the peg is empty
-            if disks_on_peg:
-                # Cycle through each binding of a disk on the peg
-                for disk_on_peg in disks_on_peg:
-                    # Get the binding from the binding dictionary
-                    disk_num = disk_on_peg.bindings_dict["?x"]
-                    # Get rid of the disk part of the name
-                    disk_num = disk_num.replace("disk", "")
-                    # Turn the disk number into an integer
-                    disk_num = int(disk_num)
-                    # Append the current disk to the peg state list
-                    peg_state.append(disk_num)
-                # Ensure that the pegs are in numeric order
-                peg_state.sort()
-            # Create a tuple of the disks on the peg from the list of disks on the peg
-            peg_state_tuple = tuple(peg_state)
-            # Append the tuple of the disks on the peg to the game state list
-            game_state.append(peg_state_tuple)
+            game_state.append(tuple(disks_on_peg))
 
-        # Create a tuple of the game state from the game state list
-        game_state_tuple = tuple(game_state)
-        # Return the tuple of the game state
-        return game_state_tuple
+        game_state = tuple(game_state)
+        return game_state
+
 
     def makeMove(self, movable_statement):
         """
@@ -120,59 +111,60 @@ class TowerOfHanoiGame(GameMaster):
 
 
         '''
-        # Check if the predicate is "movable"
-        if movable_statement.predicate == "movable" and self.isMovableLegal(movable_statement):
-            # Get the disk's name
-            disk_name = str(movable_statement.terms[0])
-            # Get the initial peg's name
-            initial_peg = str(movable_statement.terms[1])
-            # Get the destination peg's name
-            destination_peg = str(movable_statement.terms[2])
-            # Create a fact to check if the destination peg is empty
-            destination_peg_empty = parse_input("fact: (empty " + destination_peg + ")")
-            # Create a new fact that the initial peg is empty
-            initial_peg_empty = parse_input("fact: (empty " + initial_peg + ")")
-            # Create a fact to check if the initial peg still has disks on it
-            initial_peg_has_disks = parse_input("fact: (on ?x " + initial_peg + ")")
-            # Create a fact of the new location for the disk
-            new_disk_location = parse_input("fact: (on " + disk_name + " " + destination_peg + ")")
-            # Create a fact of the old location for the fact
-            old_disk_location = parse_input("fact: (on " + disk_name + " " + initial_peg + ")")
-            # Create a fact of the disk being on the top of the initial peg
-            old_disk_on_top = parse_input("fact: (top " + disk_name + " " + initial_peg + ")")
-            # Create a fact of the disk being on the top of the destination peg
-            new_disk_on_top = parse_input("fact: (top " + disk_name + " " + destination_peg + ")")
-            # Check if the destination peg is empty
-            if self.kb.kb_ask(destination_peg_empty):
-                # Retract that the destination peg is empty
-                self.kb.kb_retract(destination_peg_empty)
-            # Assert that the disk is on the destination peg
-            self.kb.kb_assert(new_disk_location)
-            # Assert that the disk is on the top of the destination peg
-            self.kb.kb_assert(new_disk_on_top)
-            # Retract that the disk was on the initial peg
-            self.kb.kb_retract(old_disk_location)
-            # Retract that the disk was on the top of the initial peg
-            self.kb.kb_retract(old_disk_on_top)
-            # Check if the initial peg has no more disks on it
-            if not self.kb.kb_ask(initial_peg_has_disks):
-                # Assert that the initial peg is now empty
-                self.kb.kb_assert(initial_peg_empty)
-            # There are disks below the movable disk
-            else:
-                # Get all the bindings for the disks on the peg
-                disks_below_movable_disk = self.kb.kb_ask(initial_peg_has_disks)
-                # Get the new top disk
-                disk_below_movable_disk = disks_below_movable_disk[0].bindings_dict["?x"]
-                # Create a fact of the new top of the stack for the initial peg
-                top_of_initial_peg = parse_input("fact: (top " + disk_below_movable_disk + " " + initial_peg + ")")
-                # Assert the new top to the initial peg.
-                self.kb.kb_assert(top_of_initial_peg)
-            return
-        # If the movable statement is not movable, return an error
+
+        #Get names of terms
+        movable_disk = str(movable_statement.terms[0])
+        initial_peg = str(movable_statement.terms[1])
+        destination_peg = str(movable_statement.terms[2])
+
+        #Remove old disk location and top
+
+        old_disk_location = Fact(["on", movable_disk, initial_peg])
+        old_disk_top = Fact(["top", movable_disk, initial_peg])
+
+        self.kb.kb_retract(old_disk_location)
+        self.kb.kb_retract(old_disk_top)
+
+        below_movable_disk_fact = Fact(["onTopOf", movable_disk, "?disk"])
+        below_movable_disk_ask = self.kb.kb_ask(below_movable_disk_fact)
+
+        if below_movable_disk_ask:
+            below_movable_disk = str(below_movable_disk_ask[0].bindings[0].constant)
+            old_onTopOf = Fact(["onTopOf", movable_disk, below_movable_disk])
+            new_initial_top = Fact(["top", below_movable_disk, initial_peg])
+            self.kb.kb_retract(old_onTopOf)
+            self.kb.kb_assert(new_initial_top)
         else:
-            print("The movable statement was not legal.")
-            return
+            new_initial_empty = Fact(["empty", initial_peg])
+            self.kb.kb_assert(new_initial_empty)
+
+        destination_empty_fact = Fact(["empty", destination_peg])
+        destination_empty_ask = self.kb.kb_ask(destination_empty_fact)
+
+        if destination_empty_ask:
+            self.kb.kb_retract(destination_empty_fact)
+        else:
+            old_destination_top_fact = parse_input("fact: (top ?disk " + destination_peg + ")")
+            old_destination_top_ask = self.kb.kb_ask(old_destination_top_fact)
+            old_destination_top = str(old_destination_top_ask[0].bindings[0].constant)
+            old_top_destination = Fact(["top", old_destination_top, destination_peg])
+            new_onTopOf = Fact(["onTopOf", movable_disk, old_destination_top])
+            self.kb.kb_retract(old_top_destination)
+            self.kb.kb_assert(new_onTopOf)
+
+
+        new_disk_location = Fact(["on", movable_disk, destination_peg])
+        new_disk_top = Fact(["top", movable_disk, destination_peg])
+
+        self.kb.kb_assert(new_disk_location)
+        self.kb.kb_assert(new_disk_top)
+
+        return
+
+
+
+
+
 
     def reverseMove(self, movable_statement):
         """
@@ -205,7 +197,7 @@ class Puzzle8Game(GameMaster):
              A Fact object that could be used to query the currently available moves
         """
         return parse_input('fact: (movable ?piece ?initX ?initY ?targetX ?targetY)')
-        
+
     def getGameState(self):
         """
         Returns a representation of the the game board in the current state.
@@ -230,8 +222,7 @@ class Puzzle8Game(GameMaster):
         '''
         # Create a list of the rows to cycle through
         all_rows = ["pos1", "pos2", "pos3"]
-        # Create a list of the columns to cycle through
-        all_columns = ["pos1", "pos2", "pos3"]
+
         # Create a game state list to store all the peg tuples
         game_state = []
         # Cycle through each row
@@ -239,7 +230,7 @@ class Puzzle8Game(GameMaster):
             # Create an empty list to hold the row state
             row_state = [-1, -1, -1]
             # Create the fact that will be asked to the KB to find which tiles are in the current row
-            my_fact = parse_input("fact: (coord ?tile ?x " + row + ")")
+            my_fact = parse_input("fact: (coordinate ?tile ?x " + row + ")")
             # Find out which disks are on the current peg
             tiles_on_row = self.kb.kb_ask(my_fact)
             # Cycle through each tile in the row
@@ -297,39 +288,23 @@ class Puzzle8Game(GameMaster):
                 If it is not legal, return error
             If it is not a movable, return error
         '''
-        # Check if the predicate is "movable"
-        if movable_statement.predicate == "movable" and self.isMovableLegal(movable_statement):
-            # Get the tile's name
-            tile_name = str(movable_statement.terms[0])
-            # Get the initial position-x
-            initial_x = str(movable_statement.terms[1])
-            # Get the initial position-y
-            initial_y = str(movable_statement.terms[2])
-            # Get the destination position-x
-            destination_x = str(movable_statement.terms[3])
-            # Get the destination position-y
-            destination_y = str(movable_statement.terms[4])
-            # Create a fact of new empty tile position
-            empty_tile = parse_input("fact: (coord empty " + initial_x + " " + initial_y + ")")
-            # Create a fact of new tile position
-            new_tile = parse_input("fact: (coord " + tile_name + " " + destination_x + " " + destination_y + ")")
-            # Create a fact of the old empty tile position
-            old_empty_tile = parse_input("fact: (coord empty " + destination_x + " " + destination_y + ")")
-            # Create a fact of the old tile position
-            old_tile = parse_input("fact: (coord " + tile_name + " " + initial_x + " " + initial_y + ")")
-            # Assert the empty tile position to the KB
-            self.kb.kb_assert(empty_tile)
-            # Assert the new tile position to the KB
-            self.kb.kb_assert(new_tile)
-            # Retract the old empty tile positionfrom the KB
-            self.kb.kb_retract(old_empty_tile)
-            # Retract the old tile position from the KB
-            self.kb.kb_retract(old_tile)
-            return
-        # If the movable statement is not legal, return an error
-        else:
-            print("The statement is not legal.")
-            return
+        tile_name = str(movable_statement.terms[0])
+        initial_x = str(movable_statement.terms[1])
+        initial_y = str(movable_statement.terms[2])
+        destination_x = str(movable_statement.terms[3])
+        destination_y = str(movable_statement.terms[4])
+
+        empty_tile = Fact(["coordinate", "empty", initial_x, initial_y])
+        new_tile = Fact(["coordinate", tile_name, destination_x, destination_y])
+        old_empty_tile = Fact(["coordinate", "empty", destination_x, destination_y])
+        old_tile = Fact(["coordinate", tile_name, initial_x, initial_y])
+
+        self.kb.kb_assert(empty_tile)
+        self.kb.kb_assert(new_tile)
+        self.kb.kb_retract(old_empty_tile)
+        self.kb.kb_retract(old_tile)
+        return
+
 
     def reverseMove(self, movable_statement):
         """
