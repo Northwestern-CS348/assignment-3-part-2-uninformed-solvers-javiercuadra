@@ -5,11 +5,11 @@ shown as the follows:
 
  y\\x   pos1     pos2     pos3
      ----------------------------
-pos1 | tile1  | tile2  | tile3  |
+pos1 | tile5  | tile4  | empty  |
      ----------------------------
-pos2 | tile8  | empty  | tile4  |
+pos2 | tile6  | tile1  | tile8  |
      ----------------------------
-pos3 | tile7  | tile6  | tile5  |
+pos3 | tile7  | tile3  | tile2  |
      ----------------------------
 
 Example: 
@@ -17,17 +17,17 @@ fact: (pred obj1 obj2)
 rule: ((pred obj1 obj2) (pred obj2 obj3)) -> (pred obj1 obj3)
 
 """
-fact: (coordinate tile1 pos1 pos1)
-fact: (coordinate tile2 pos2 pos1)
-fact: (coordinate tile3 pos3 pos1)
+fact: (coordinate tile5 pos1 pos1)
+fact: (coordinate tile4 pos2 pos1)
+fact: (coordinate empty pos3 pos1)
 
-fact: (coordinate tile8 pos1 pos2)
-fact: (coordinate empty pos2 pos2)
-fact: (coordinate tile4 pos3 pos2)
+fact: (coordinate tile6 pos1 pos2)
+fact: (coordinate tile1 pos2 pos2)
+fact: (coordinate tile8 pos3 pos2)
 
 fact: (coordinate tile7 pos1 pos3)
-fact: (coordinate tile6 pos2 pos3)
-fact: (coordinate tile5 pos3 pos3)
+fact: (coordinate tile3 pos2 pos3)
+fact: (coordinate tile2 pos3 pos3)
 
 
 rule: ((coordinate ?tile_a ?x pos2) (coordinate ?tile_b ?x ?y)) -> (adjacent ?tile_a ?tile_b)
