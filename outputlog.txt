@@ -1,0 +1,126 @@
+TESTS WITH ERRORS 
+test01_GM_Hanoi_01 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 74, in test01_GM_Hanoi_01
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test02_GM_Hanoi_02 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 84, in test02_GM_Hanoi_02
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test03_GM_Hanoi_03 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 97, in test03_GM_Hanoi_03
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test04_GM_Hanoi_04 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 112, in test04_GM_Hanoi_04
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test05_GM_8Puzzle_01 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 129, in test05_GM_8Puzzle_01
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test06_GM_8Puzzle_02 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 139, in test06_GM_8Puzzle_02
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test07_GM_8Puzzle_03 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 156, in test07_GM_8Puzzle_03
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test08_GM_8Puzzle_04 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 184, in test08_GM_8Puzzle_04
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test09_DFS_Hanoi_01 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 212, in test09_DFS_Hanoi_01
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test10_DFS_Hanoi_02 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 231, in test10_DFS_Hanoi_02
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test11_DFS_Hanoi_03 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 250, in test11_DFS_Hanoi_03
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test12_BFS_Hanoi_01 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 263, in test12_BFS_Hanoi_01
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test13_BFS_Hanoi_02 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 282, in test13_BFS_Hanoi_02
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test14_BFS_Hanoi_03 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 300, in test14_BFS_Hanoi_03
+    th = TowerOfHanoiGame()
+NameError: name 'TowerOfHanoiGame' is not defined
+
+test15_DFS_8Puzzle_01 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 318, in test15_DFS_8Puzzle_01
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test16_DFS_8Puzzle_02 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 337, in test16_DFS_8Puzzle_02
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test17_DFS_8Puzzle_03 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 356, in test17_DFS_8Puzzle_03
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test18_BFS_8Puzzle_01 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 375, in test18_BFS_8Puzzle_01
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test19_BFS_8Puzzle_02 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 394, in test19_BFS_8Puzzle_02
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+test20_BFS_8Puzzle_03 (gradingtests.UnitTests)
+Traceback (most recent call last):
+  File "C:\Users\kille\academics\automatedgradingapp\app\testing\uninformed-solvers\gradingtests.py", line 413, in test20_BFS_8Puzzle_03
+    p8 = Puzzle8Game()
+NameError: name 'Puzzle8Game' is not defined
+
+-------------------------------
+TESTS FAILED  
+-------------------------------
+TESTS SKIPPED 
+-------------------------------
